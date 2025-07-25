@@ -1,5 +1,54 @@
-# Ignore Gradle project-specific cache directory
-.gradle
+# ---------------------------------
+# Gradle
+# ---------------------------------
+.gradle/
+build/
+target/
+!gradle/wrapper/gradle-wrapper.jar
 
-# Ignore Gradle build output directory
-build
+# Archivos de logs
+*.log
+
+# ---------------------------------
+# Java
+# ---------------------------------
+*.class
+*.jar
+*.war
+*.ear
+
+# ---------------------------------
+# Eclipse/IDEA/VSCode
+# ---------------------------------
+.vscode/
+.idea/
+*.iml
+
+# ---------------------------------
+# Sistema operativo
+# ---------------------------------
+.DS_Store
+Thumbs.db
+
+# ---------------------------------
+# Informes de prueba / cobertura
+# ---------------------------------
+test-results/
+test-output/
+jacoco.exec
+*.ec
+*.exec
+coverage/
+reports/
+
+# ---------------------------------
+# Archivos temporales de edición
+# ---------------------------------
+*.swp
+*.tmp
+*~
+
+# ---------------------------------
+# Archivos de entorno / local
+# ---------------------------------
+.env
