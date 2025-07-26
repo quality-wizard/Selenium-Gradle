@@ -119,6 +119,7 @@ We use `master` as the stable base branch. New branches should follow this patte
 ### Example: Creating a Branch and Opening a Pull Request
 
 1. Create a new branch from `master`:
+
    ```bash
    git checkout master
    git pull
