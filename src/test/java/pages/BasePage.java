@@ -20,30 +20,32 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  */
 public class BasePage {
 
-    // Static WebDriver instance to be shared across all page objects
+    // WebDriver instance used throughout the application
     protected static WebDriver driver;
+    WebDriverWait wait;
 
-    // WebDriverWait instance for handling waits
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-    // Static block to initialize WebDriver
+    // Static block to initialize the WebDriver
     static {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+    }
+
+    // Constructor for BasePage
+    // Initializes the WebDriverWait with a timeout of 10 seconds
+    // Throws an exception if the WebDriver is not initialized
+    public BasePage() {
+        if (driver == null) {
+            throw new IllegalStateException("WebDriver is not initialized.");
+        }
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     // Method to close the driver
     public static void closeDriver() {
         if (driver != null) {
             driver.quit();
-            driver = null; // Clear the reference to the driver
+            driver = null;
         }
-    }
-
-    // Method to get the WebDriver instance
-    public BasePage(WebDriver driver) {
-        // Constructor can be used for additional setup if needed
-        BasePage.driver = driver;
     }
 
     // Method to navigate to a specific URL
