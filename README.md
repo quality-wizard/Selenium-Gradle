@@ -21,6 +21,7 @@ A scalable test automation framework using Selenium WebDriver, Cucumber, and Gra
   - [Customization](#customization)
   - [Test Execution](#test-execution)
   - [Branch Naming Convention](#branch-naming-convention)
+    - [Example: Creating a Branch and Opening a Pull Request](#example-creating-a-branch-and-opening-a-pull-request)
   - [License](#license)
 
 ## Features
@@ -114,6 +115,34 @@ We use `master` as the stable base branch. New branches should follow this patte
 | Bug fix           | `fix/`        | `fix/incorrect-selector`     |
 | Refactor          | `refactor/`   | `refactor/basepage-cleanup`  |
 | Tool integration  | `integration/`| `integration/allure-report`  |
+
+### Example: Creating a Branch and Opening a Pull Request
+
+1. Create a new branch from `master`:
+   ```bash
+   git checkout master
+   git pull
+   git checkout -b feature/new-login-test
+   ```
+
+2. Make your changes and commit:
+
+   ```bash
+   git add .
+   git commit -m "Add new login test feature"
+   ```
+
+3. Push your branch to the remote repository:
+
+   ```bash
+   git push origin feature/new-login-test
+   ```
+
+4. Open a Pull Request (PR):
+   - Go to your repository on GitHub/GitLab/Bitbucket.
+   - You will see an option to open a Pull Request from your newly pushed branch.
+   - Compare it with `master` and describe the purpose of your changes.
+   - Submit the PR for review.
 
 ## License
 
