@@ -10,6 +10,11 @@ plugins {
     id 'application'
 }
 
+clean.doFirst {
+    println "> Clean :target/"
+    delete 'target'
+}
+
 // The version of the application.
 // This can be updated as you release new versions of your application.
 version = '1.0.0'
