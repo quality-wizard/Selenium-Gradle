@@ -1,7 +1,9 @@
 package steps;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import pages.PaginaCursos;
 import pages.PaginaPrincipal;
 
 /**
@@ -13,14 +15,21 @@ import pages.PaginaPrincipal;
 public class FreeRangeSteps {
 
     PaginaPrincipal landingPage = new PaginaPrincipal();
+    PaginaCursos cursosPage = new PaginaCursos();
 
-    @Given("I am on the Free Range Testers homepage")
+    @Given("I navigate to www.freerangetesters.com")
     public void navigateToFreeRangeTesters() {
         landingPage.navigateToFreeRangeTesters();
     }
 
     @When("I go to the {word} using the navigation bar")
-    public void NavigationBarUse(String section) {
-        landingPage.goToSectionUsingNavigationBar(section);
+    public void navigationBarUse(String section) {
+        landingPage.goToSectionUsingNavigationBar("Cursos");
     }
+
+    @And("I select Introducción al Testing")
+    public void selectIntroduccionAlTesting() {
+        cursosPage.goToFundamentosTestingLink();
+    }
+
 }
