@@ -8,11 +8,18 @@ package pages;
  */
 public class PaginaPrincipal extends BasePage {
 
-    private String sectionLink = "//a[normalize-space()='%s' and @href]";
+    private String urlBase = "%s";
+    private String sectionLink = "//a[normalize-space()=%s and @href]";
 
     // Method to navigate to the Free Range Testers homepage
-    public void navigateToFreeRangeTesters() {
-        navigateTo("https://www.freerangetesters.com");
+    public void navigateToFreeRangeTesters(String url) {
+        // Check if the URL starts with "http" and prepend "https://" if not
+        if (!url.startsWith("http")) {
+            url = "https://" + url;
+        }
+        // Format the URL with the base URL
+        String urlPage = String.format(urlBase, url);
+        navigateTo(urlPage);
     }
 
     // Method to click on a section in the navigation bar using the provided section

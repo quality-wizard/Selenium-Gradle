@@ -16,8 +16,8 @@ Feature: Navigation bar
     #         | Blog      |
 
     Scenario: Courses are presented correctly to potencial customers
-        Given I navigate to www.freerangetesters.com
-        When I go to the "Cursos" using the navigation bar
+        Given I navigate to 'www.freerangetesters.com'
+        When I go to the 'Cursos' using the navigation bar
         And I select Introducción al Testing
 
 
