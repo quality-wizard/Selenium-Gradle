@@ -4,7 +4,6 @@
 .gradle/
 build/
 target/
-!gradle/wrapper/gradle-wrapper.jar
 
 # Archivos de logs
 *.log
