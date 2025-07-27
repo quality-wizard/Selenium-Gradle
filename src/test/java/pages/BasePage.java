@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -89,5 +90,49 @@ public class BasePage {
         Select dropdown = new Select(findElement(locator));
         List<WebElement> dropdownOptions = dropdown.getOptions();
         return dropdownOptions.size();
+    }
+
+    // Method to get all options from a dropdown as a list of strings
+    public List<String> getDropdownOptions(String locator) {
+        Select dropdown = new Select(findElement(locator));
+
+        // Get all options from the dropdown and return their text as a list of strings
+        List<WebElement> dropdownOptions = dropdown.getOptions();
+        // Create a list to hold the text of each option
+        List<String> values = new ArrayList<>();
+        // Iterate through each option and add its text to the list
+        for (WebElement option : dropdownOptions) {
+            values.add(option.getText());
+        }
+
+        return values;
+    }
+
+    // Method to get the text of all radio buttons within a form
+    public List<String> getRadioButtonTexts(String locator) {
+        // Find the form element using the provided locator
+        WebElement formElement = findElement(locator);
+        // Find all radio buttons within the form
+        List<WebElement> radioButtons = formElement.findElements(By.xpath(".//input[@type='radio']"));
+        // Create a list to hold the text of each radio button
+        List<String> radioButtonTexts = new ArrayList<>();
+        // Iterate through each radio button and add its label text to the list
+        for (WebElement radioButton : radioButtons) {
+            // Find the label associated with the radio button
+            WebElement label = formElement
+                    .findElement(By.xpath(".//label[@for='" + radioButton.getAttribute("id") + "']"));
+            // Add the label text to the list
+            radioButtonTexts.add(label.getText());
+        }
+        return radioButtonTexts;
+    }
+
+    // Method to handle radio buttons
+    public void selectRadioButton(String locator) {
+        // Find the radio button element and click it
+        WebElement radioButton = findElement(locator);
+        if (!radioButton.isSelected()) {
+            radioButton.click();
+        }
     }
 }
