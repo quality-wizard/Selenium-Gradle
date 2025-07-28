@@ -41,17 +41,17 @@ public class FreeRangeSteps {
         landingPage.goToSectionUsingNavigationBar(section);
     }
 
-    @And("I select Introducción al Testing")
+    @And("^(?:I|The user|The client) selects? Introducción al Testing$")
     public void selectIntroduccionAlTesting() {
         cursosPage.goToFundamentosTestingLink();
     }
 
-    @And("I select Empezar hoy")
+    @And("^(?:I|The user|The client) selects? Empezar hoy$")
     public void selectEmpezarHoy() {
         academiaPage.goToElegirPlan();
     }
 
-    @Then("I can validate the options available in the checkout page")
+    @Then("^(?:I|The user|The client) can validate the options available in the checkout page$")
     public void validateCheckoutOptions() {
         List<String> lista = registroPage.getRadioButtonTexts();
         List<String> listaEsperada = List.of("$16.99/m", "$176/a");

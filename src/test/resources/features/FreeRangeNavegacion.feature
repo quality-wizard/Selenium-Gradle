@@ -1,11 +1,14 @@
+@free-range-navigation
 Feature: Navigation bar
 
     To see the subpages
     Whitout logging in
     I Can click on the navigation bar links
 
-    Scenario Outline: I can access the subpages through the navigation bar
+    Background: I am on the Free Range Testers website
         Given I navigate to 'www.freerangetesters.com'
+
+    Scenario Outline: I can access the subpages through the navigation bar
         When I go to the '<section>' using the navigation bar
         Examples:
             | section   |
@@ -17,14 +20,12 @@ Feature: Navigation bar
 
     @courses
     Scenario: Courses are presented correctly to potencial customers
-        Given I navigate to 'www.freerangetesters.com'
         When I go to the 'Cursos' using the navigation bar
         And I select Introducción al Testing
 
-    @plans
+    @plans @courses
     Scenario: User can select a plan when singing up
-        Given I navigate to 'www.freerangetesters.com'
         When I go to the 'Academia' using the navigation bar
-        And I select Empezar hoy
-        Then I can validate the options available in the checkout page
+        And The user selects Empezar hoy
+        Then The client can validate the options available in the checkout page
 
