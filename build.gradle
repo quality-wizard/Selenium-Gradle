@@ -11,6 +11,7 @@ plugins {
 }
 
 clean.doFirst {
+    // Clean the 'target' directory before running tests.
     println "> Clean :target/"
     delete 'target'
 }

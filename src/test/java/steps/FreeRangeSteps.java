@@ -31,26 +31,50 @@ public class FreeRangeSteps {
     PaginaAcademia academiaPage = new PaginaAcademia();
     PaginaRegistro registroPage = new PaginaRegistro();
 
+    // Step definitions for navigating the Free Range Testers website
+
+    /**
+     * These step definitions are used cucumber expressions
+     * Anchors ^, $, (?:I|The user|The client) and selects?
+     * Are not permited to use in the step definition
+     */
+
+    // Using Cucumber expressions to define the steps
     @Given("I navigate to {string}")
+    @Given("The user navigates to {string}")
+    @Given("The client navigates to {string}")
     public void navigateToFreeRangeTesters(String url) {
         landingPage.navigateToFreeRangeTesters(url);
     }
 
+    // Step definitions for navigating to different sections using the navigation
+    // bar
     @When("I go to the {word} using the navigation bar")
+    @When("The user goes to the {word} using the navigation bar")
+    @When("The client goes to the {word} using the navigation bar")
     public void navigationBarUse(String section) {
         landingPage.goToSectionUsingNavigationBar(section);
     }
 
+    /**
+     * These step definitions are not used cucumber expressions
+     * Anchors ^, $, (?:I|The user|The client) and selects?
+     * Are permited to use in the step definition
+     */
+
+    // Step definition for accessing the "Cursos" section
     @And("^(?:I|The user|The client) selects? Introducción al Testing$")
     public void selectIntroduccionAlTesting() {
         cursosPage.goToFundamentosTestingLink();
     }
 
+    // Step definition for accessing the "Academia" section and selecting a plan
     @And("^(?:I|The user|The client) selects? Empezar hoy$")
     public void selectEmpezarHoy() {
         academiaPage.goToElegirPlan();
     }
 
+    // Step definition for validating the options available in the checkout page
     @Then("^(?:I|The user|The client) can validate the options available in the checkout page$")
     public void validateCheckoutOptions() {
         List<String> lista = registroPage.getRadioButtonTexts();
@@ -61,6 +85,9 @@ public class FreeRangeSteps {
 
     }
 
+    // Example assertions to demonstrate different assertion types
+    // These assertions are not part of the step definitions but demonstrate how to
+    // use assertions in tests
     public void EjemplosAssertions() {
         // Example assertions
         String palabraEsperada = "Pepe";
