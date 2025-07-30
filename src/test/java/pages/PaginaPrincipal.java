@@ -1,5 +1,8 @@
 package pages;
 
+import static utils.WebElements.*;
+import static utils.LocatorFormatter.*;
+
 /**
  * PaginaPrincipal class represents the main page of the Free Range Testers
  * website.
@@ -8,9 +11,6 @@ package pages;
  */
 public class PaginaPrincipal extends BasePage {
 
-    private String urlBase = "%s";
-    private String sectionLink = "//a[normalize-space()=%s and @href]";
-
     // Method to navigate to the Free Range Testers homepage
     public void navigateToFreeRangeTesters(String url) {
         // Check if the URL starts with "http" and prepend "https://" if not
@@ -18,14 +18,14 @@ public class PaginaPrincipal extends BasePage {
             url = "https://" + url;
         }
         // Format the URL with the base URL
-        String urlPage = String.format(urlBase, url);
+        String urlPage = formatXpath(HOME_URL, url);
         navigateTo(urlPage);
     }
 
     // Method to click on a section in the navigation bar using the provided section
     public void goToSectionUsingNavigationBar(String section) {
         // Format the section link with the provided section name
-        String xpathSection = String.format(sectionLink, section);
+        String xpathSection = formatXpath(HOME_SECTION_LINK, section);
         clickElement(xpathSection);
     }
 

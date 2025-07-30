@@ -11,6 +11,7 @@ plugins {
 }
 
 clean.doFirst {
+    // Clean the 'target' directory before running tests.
     println "> Clean :target/"
     delete 'target'
 }
@@ -37,10 +38,15 @@ dependencies {
     implementation 'io.github.bonigarcia:webdrivermanager:6.2.0'
 
     // Logger backend
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     testImplementation 'ch.qos.logback:logback-classic:1.4.14'
 
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-devtools-v138
     implementation 'org.seleniumhq.selenium:selenium-devtools-v138:4.34.0'
+
+    // AssertJ for fluent assertions
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation 'org.assertj:assertj-core:3.25.3'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -53,9 +59,21 @@ java {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+
+    // Set the test logging configuration
     testLogging {
-        events = ["passed", "skipped", "failed"]
+        events = ["passed", "failed"]
         exceptionFormat = "short"
         showStandardStreams = true
-    }    
+    }
+    
+    // Set system properties for Cucumber tags filtering
+    systemProperties['cucumber.filter.tags'] = System.getProperty('cucumber.filter.tags')
+
+    // Print the tags from the console property
+    doFirst {
+        println ">> TAG desde consola: ${System.getProperty('cucumber.filter.tags')}"
+    }
+
+
 }

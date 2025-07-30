@@ -1,12 +1,12 @@
 package pages;
 
-public class PaginaCursos extends BasePage {
+import static utils.WebElements.*;
 
-    private String fundamentosTestingLink = "//h3[normalize-space()='Introducción al Testing de Software']";
+public class PaginaCursos extends BasePage {
 
     // Method to click on a specific course using the defined locator
     public void goToFundamentosTestingLink() {
-        clickElement(fundamentosTestingLink);
+        clickElement(FUNDAMENTOS_TESTING_LINK);
     }
 
 }
