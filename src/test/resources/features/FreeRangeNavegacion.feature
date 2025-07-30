@@ -9,7 +9,7 @@ Feature: Navigation bar
         Given I navigate to 'www.freerangetesters.com'
 
     Scenario Outline: I can access the subpages through the navigation bar
-        When I go to the '<section>' using the navigation bar
+        When I go to the <section> using the navigation bar
         Examples:
             | section   |
             | Cursos    |
@@ -20,12 +20,12 @@ Feature: Navigation bar
 
     @courses
     Scenario: Courses are presented correctly to potencial customers
-        When I go to the 'Cursos' using the navigation bar
+        When The user goes to the 'Cursos' using the navigation bar
         And I select Introducción al Testing
 
     @plans @courses
     Scenario: User can select a plan when singing up
-        When I go to the 'Academia' using the navigation bar
+        When The client goes to the 'Academia' using the navigation bar
         And The user selects Empezar hoy
         Then The client can validate the options available in the checkout page
 
