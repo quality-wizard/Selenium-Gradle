@@ -1,12 +1,12 @@
 package pages;
 
-public class PaginaAcademia extends BasePage {
+import static utils.WebElements.*;
 
-    private String elegirPlanButton = "//a[normalize-space()='Empezar hoy' and @href]";
+public class PaginaAcademia extends BasePage {
 
     // Method to click on a specific course using the defined locator
     public void goToElegirPlan() {
-        clickElement(elegirPlanButton);
+        clickElement(ELEGIR_PLAN_BUTTON);
     }
 
 }
