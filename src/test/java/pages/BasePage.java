@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -133,6 +134,25 @@ public class BasePage {
         WebElement radioButton = findElement(locator);
         if (!radioButton.isSelected()) {
             radioButton.click();
+        }
+    }
+
+    public void highlightRedElement(WebElement elemento) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('style', 'border: 3px solid red;')", elemento);
+    }
+
+    public void highlightGreenElement(WebElement elemento) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('style', 'border: 3px solid green;')", elemento);
+    }
+
+    public void highlightWebElement(By locator, boolean exitoso) {
+        WebElement element = driver.findElement(locator);
+        if (exitoso) {
+            highlightGreenElement(element);
+        } else {
+            highlightRedElement(element);
         }
     }
 }

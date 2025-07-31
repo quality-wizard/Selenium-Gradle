@@ -1,6 +1,9 @@
 package pages;
 
 import java.util.List;
+
+import org.openqa.selenium.By;
+
 import static utils.WebElements.*;
 
 public class PaginaRegistro extends BasePage {
@@ -9,4 +12,9 @@ public class PaginaRegistro extends BasePage {
     public List<String> getRadioButtonTexts() {
         return getRadioButtonTexts(CHECKOUT_SUMMARY_FORM);
     }
+
+    public void highLightRadioForm(boolean exitoso) {
+        highlightWebElement(By.xpath(CHECKOUT_SUMMARY_FORM), exitoso);
+    }
+
 }

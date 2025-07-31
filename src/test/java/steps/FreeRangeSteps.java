@@ -1,5 +1,7 @@
 package steps;
 
+import utils.AllureAttachments;
+
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
@@ -78,10 +80,21 @@ public class FreeRangeSteps {
     @Then("^(?:I|The user|The client) can validate the options available in the checkout page$")
     public void validateCheckoutOptions() {
         List<String> lista = registroPage.getRadioButtonTexts();
-        List<String> listaEsperada = List.of("$16.99/m", "$176/a");
+        List<String> listaEsperada = List.of("$16.99/m", "$176/as");
 
-        // Assert that the expected options are present in the checkout page
-        Assertions.assertEquals(lista, listaEsperada);
+        try {
+            Assertions.assertEquals(lista, listaEsperada);
+            registroPage.highLightRadioForm(true);
+        } catch (AssertionError e) {
+            registroPage.highLightRadioForm(false);
+            // Attach the options as Allure text attachments
+            AllureAttachments.attachText("Opciones visualizadas", String.join(", ", lista));
+            AllureAttachments.attachText("Opciones esperadas", String.join(", ", listaEsperada));
+            throw e;
+        } finally {
+            // Atach Screenshot
+            AllureAttachments.attachScreenshot();
+        }
 
     }
 
