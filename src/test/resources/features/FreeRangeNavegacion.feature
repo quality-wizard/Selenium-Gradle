@@ -16,6 +16,7 @@ Feature: FreeRangeNavigation
     @navigation @smoke
     @allure.label.severity:normal
     @allure.label.subSuite:subpages
+    @TEST_CWP-82
     Scenario Outline: I can access the subpages through the navigation bar
         When I go to the <section> using the navigation bar
         Examples:
@@ -29,6 +30,7 @@ Feature: FreeRangeNavigation
     @courses @ui
     @allure.label.severity:blocker
     @allure.label.subSuite:courses
+    @TEST_CWP-83
     Scenario: Courses are presented correctly to potential customers
         When The user goes to the 'Cursos' using the navigation bar
         And I select Introducción al Testing
@@ -38,6 +40,7 @@ Feature: FreeRangeNavigation
     @allure.link.issue:FRONT-102
     @allure.label.severity:critical
     @allure.label.subSuite:suscription
+    @TEST_CWP-84
     Scenario: User can select a plan when signing up
         When The client goes to the 'Academia' using the navigation bar
         And The user selects Empezar hoy
