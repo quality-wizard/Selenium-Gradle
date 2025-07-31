@@ -27,11 +27,28 @@ TOKEN=$(curl -s -H "Content-Type: application/json" \
 # Subida de resultados sin testExecutionKey para que se cree automáticamente
 # =======================
 echo "Subiendo resultados a Xray..."
+ # Crear archivo temporal info.json
+INFO_FILE="build/cucumber/info.json"
+mkdir -p build/cucumber
+cat <<EOF > "$INFO_FILE"
+{
+    "fields": {
+        "project": { "key": "CWP" },
+        "summary": "Smoke Test - FreeRangeNavigation",
+        "description": "Ejecución automática en entorno QA desde Jenkins. Pruebas sobre la navegación principal sin login.",
+        "issuetype": { "name": "Test Execution" }
+    },
+    "startDate": "$(date -u +"%Y-%m-%dT%H:%M:%S%z")",
+    "finishDate": "$(date -u +"%Y-%m-%dT%H:%M:%S%z")"
+}
+EOF
 RESPONSE=$(curl -s \
     -H "Authorization: Bearer $TOKEN" \
-    -F "file=@build/cucumber/cucumber.json" \
-    -F "info={\"project\":\"CWP\",\"summary\":\"Ejecución automatizada desde Jenkins\"};type=application/json" \
+    -F "results=@build/cucumber/cucumber.json" \
+    -F "info=@$INFO_FILE;type=application/json" \
     "$IMPORT_URL")
 
 echo "Respuesta de Xray:"
 echo "$RESPONSE"
+# Limpiar archivo temporal
+rm "$INFO_FILE"
