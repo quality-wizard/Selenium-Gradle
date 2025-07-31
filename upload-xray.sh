@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# =======================
-# Cargar archivo .env
-# =======================
-ENV_FILE=".env"
-if [ -f "$ENV_FILE" ]; then
-    export $(grep -v '^#' "$ENV_FILE" | xargs)
-else
-    echo "Archivo .env no encontrado. Abortando."
-    exit 1
-fi
+# # =======================
+# # Cargar archivo .env
+# # =======================
+# ENV_FILE=".env"
+# if [ -f "$ENV_FILE" ]; then
+#     export $(grep -v '^#' "$ENV_FILE" | xargs)
+# else
+#     echo "Archivo .env no encontrado. Abortando."
+#     exit 1
+# fi
 
 # =======================
 # Configuración
