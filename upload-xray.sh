@@ -14,26 +14,23 @@ fi
 # =======================
 # Configuración
 # =======================
-
-# Reemplaza esto con tu endpoint de autenticación y subida de resultados
 AUTH_URL="https://xray.cloud.getxray.app/api/v2/authenticate"
-IMPORT_URL="https://xray.cloud.getxray.app/api/v2/import/execution/cucumber"
+IMPORT_URL="https://xray.cloud.getxray.app/api/v2/import/execution/cucumber/multipart"
 
-# Token de API desde variable de entorno (¡no lo hardcodees!)
+# Obtener token
 TOKEN=$(curl -s -H "Content-Type: application/json" \
     -X POST \
     -d "{\"client_id\": \"$XRAY_CLIENT_ID\", \"client_secret\": \"$XRAY_CLIENT_SECRET\"}" \
     "$AUTH_URL" | tr -d '"')
 
 # =======================
-# Subida de resultados
+# Subida de resultados sin testExecutionKey para que se cree automáticamente
 # =======================
-
 echo "Subiendo resultados a Xray..."
 RESPONSE=$(curl -s \
-    -H "Content-Type: application/json" \
     -H "Authorization: Bearer $TOKEN" \
-    --data @"build/allure-results/cucumber.json" \
+    -F "file=@build/cucumber/cucumber.json" \
+    -F "info={\"project\":\"CWP\",\"summary\":\"Ejecución automatizada desde Jenkins\"};type=application/json" \
     "$IMPORT_URL")
 
 echo "Respuesta de Xray:"
