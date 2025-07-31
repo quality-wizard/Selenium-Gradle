@@ -12,7 +12,10 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 @Suite
 @SelectPackages("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "steps")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:target/cucumber-reports.html, json:target/cucumber-reports/cucumber.json")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
+// @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty,
+// html:target/cucumber-reports.html,
+// json:target/cucumber-reports/cucumber.json")
 /**
  * TestRunner class is used to run the Cucumber tests.
  * It sets up the test suite and specifies the features and steps to be used.

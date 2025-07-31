@@ -8,12 +8,20 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+
 }
 
-clean.doFirst {
-    // Clean the 'target' directory before running tests.
-    println "> Clean :target/"
-    delete 'target'
+def allureVersion = "2.25.0"
+
+tasks.register('cleanExtras') {
+    doLast {
+        delete 'target'
+        delete 'allure-results'
+    }
+}
+
+tasks.named('clean') {
+    dependsOn tasks.named('cleanExtras')
 }
 
 // The version of the application.
@@ -47,6 +55,14 @@ dependencies {
     // AssertJ for fluent assertions
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testImplementation 'org.assertj:assertj-core:3.25.3'
+    
+    // Allure dependencies for reporting
+    // Import allure-bom to ensure correct versions of all the dependencies are used
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    // Add necessary Allure dependencies to dependencies section
+    testImplementation "io.qameta.allure:allure-cucumber7-jvm"
+    testImplementation "io.qameta.allure:allure-junit-platform"
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -62,7 +78,7 @@ tasks.named('test') {
 
     // Set the test logging configuration
     testLogging {
-        events = ["passed", "failed"]
+        events = ["passed", "skipped", "failed"]
         exceptionFormat = "short"
         showStandardStreams = true
     }
@@ -70,10 +86,52 @@ tasks.named('test') {
     // Set system properties for Cucumber tags filtering
     systemProperties['cucumber.filter.tags'] = System.getProperty('cucumber.filter.tags')
 
-    // Print the tags from the console property
     doFirst {
         println ">> TAG desde consola: ${System.getProperty('cucumber.filter.tags')}"
     }
+}
 
+// Allure CLI post-processing for enriched reports
+tasks.named('test') {
+    finalizedBy('allureReportCLI')
+}
 
+// Prepare Allure metadata before generating the report
+tasks.register('prepareAllureMetadata') {
+    doLast {
+        def allureResults = file("$buildDir/allure-results")
+
+        // Crear environment.properties
+        def envFile = new File(allureResults, "environment.properties")
+        envFile.text = """Browser=Chrome 138
+        Environment=QA
+        OS=${System.getProperty('os.name')}
+        """
+
+        // Crear executor.json
+        def executorJson = new File(allureResults, "executor.json")
+        executorJson.text = """{
+        "name": "Gradle Local",
+        "type": "manual",
+        "buildName": "Local Build",
+        "buildOrder": 1,
+        "reportName": "Allure Report Local"
+        }"""
+
+        // Copiar history si existe
+        def previousHistory = file("$buildDir/allure-report/history")
+        def currentHistory = new File(allureResults, "history")
+        if (previousHistory.exists()) {
+            copy {
+                from previousHistory
+                into currentHistory
+            }
+        }
+    }
+}
+
+// Generate Allure report with Exec task (no deprecations)
+tasks.register('allureReportCLI', Exec) {
+    dependsOn 'prepareAllureMetadata'
+    commandLine 'allure', 'generate', "$buildDir/allure-results", '--clean', '-o', "$buildDir/allure-report"
 }
