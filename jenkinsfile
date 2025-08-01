@@ -53,11 +53,23 @@ pipeline {
             post {
                 always {
                     sh '''
-                        # Restaurar historial si fue copiado
-                        if [ -d tmp/allure-history ]; then
-                            echo "Restaurando historial Allure..."
+                        # Restaurar historial previo si existe
+                        if [ -d allure-history ]; then
+                            echo "Copiando historial previo a results..."
                             mkdir -p build/allure-results/history
-                            cp -r tmp/allure-history/* build/allure-results/history || true
+                            cp -r allure-history/* build/allure-results/history || true
+                        else
+                            echo "No hay historial previo para restaurar."
+                        fi
+                    '''
+                    sh './gradlew clean test'
+
+                    sh '''
+                        # Guardar historial generado para próxima ejecución
+                        if [ -d build/allure-results/history ]; then
+                            echo "Guardando historial generado para la próxima ejecución..."
+                            mkdir -p allure-history
+                            cp -r build/allure-results/history/* allure-history || true
                         fi
                     '''
                     allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
