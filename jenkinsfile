@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'Node'
-        allure 'Allure'        
+        nodejs 'Node'   // Nombre configurado en Jenkins Global Tool Configuration
+        allure 'Allure' // Nombre configurado para Allure CLI
     }
 
     environment {
-        // Variables de entorno cargadas desde .env o definidas aquí directamente
         XRAY_CLIENT_ID     = credentials('xray-client-id')
         XRAY_CLIENT_SECRET = credentials('xray_client_secret')
         JIRA_EMAIL         = credentials('jira_email')
@@ -21,6 +20,21 @@ pipeline {
 
     stages {
 
+        stage('Check Node.js availability') {
+            steps {
+                echo 'Verificando PATH y versión de Node.js...'
+                sh 'echo $PATH'
+                sh 'which node || echo "node no encontrado"'
+                sh 'node -v || echo "node no ejecutable"'
+
+                script {
+                    def nodeHome = tool 'Node'
+                    echo "Ruta de Node.js configurada: ${nodeHome}"
+                    sh "${nodeHome}/bin/node -v"
+                }
+            }
+        }
+
         stage('Build & Test') {
             steps {
                 echo 'Ejecutando pruebas con Gradle...'
@@ -28,7 +42,6 @@ pipeline {
             }
             post {
                 always {
-                    // Publicar reporte Allure usando el plugin Jenkins
                     allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
                 }
             }
@@ -44,7 +57,6 @@ pipeline {
         stage('Generar PDF Allure Report') {
             steps {
                 echo 'Generando PDF con Puppeteer...'
-                // Si Node.js no está instalado en Jenkins, usar herramienta global o docker
                 sh '''
                     if ! command -v node >/dev/null 2>&1; then
                         echo "Node.js no está instalado. Abortando."
