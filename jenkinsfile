@@ -4,10 +4,10 @@ pipeline {
     environment {
         // Variables de entorno cargadas desde .env o definidas aquí directamente
         XRAY_CLIENT_ID     = credentials('xray-client-id')
-        XRAY_CLIENT_SECRET = credentials('xray-client-secret')
-        JIRA_EMAIL         = credentials('jira-email')
-        JIRA_API_TOKEN     = credentials('jira-api-token')
-        JIRA_URL           = credentials('jira-url')
+        XRAY_CLIENT_SECRET = credentials('xray_client_secret')
+        JIRA_EMAIL         = credentials('jira_email')
+        JIRA_API_TOKEN     = credentials('jira_api_token')
+        JIRA_URL           = credentials('jira_url')
     }
 
     options {
