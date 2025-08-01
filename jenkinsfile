@@ -38,40 +38,10 @@ pipeline {
         stage('Build & Test') {
             steps {
                 echo 'Ejecutando pruebas con Gradle...'
-                sh '''
-                    # Copiar historial si existe
-                    if [ -d build/allure-results/history ]; then
-                        echo "Copiando historial Allure..."
-                        mkdir -p tmp/allure-history
-                        cp -r build/allure-results/history/* tmp/allure-history || true
-                    else
-                        echo "No existe historial previo de Allure. Continuando..."
-                    fi
-                '''
                 sh './gradlew clean test'
             }
             post {
                 always {
-                    sh '''
-                        # Restaurar historial previo si existe
-                        if [ -d allure-history ]; then
-                            echo "Copiando historial previo a results..."
-                            mkdir -p build/allure-results/history
-                            cp -r allure-history/* build/allure-results/history || true
-                        else
-                            echo "No hay historial previo para restaurar."
-                        fi
-                    '''
-                    sh './gradlew clean test'
-
-                    sh '''
-                        # Guardar historial generado para próxima ejecución
-                        if [ -d build/allure-results/history ]; then
-                            echo "Guardando historial generado para la próxima ejecución..."
-                            mkdir -p allure-history
-                            cp -r build/allure-results/history/* allure-history || true
-                        fi
-                    '''
                     allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
                     echo 'Subiendo resultados a Xray...'
                     sh 'chmod +x ./upload-xray.sh && ./upload-xray.sh'
