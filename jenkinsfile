@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    environment {
+        // Variables de entorno cargadas desde .env o definidas aquí directamente
+        XRAY_CLIENT_ID     = credentials('xray-client-id')
+        XRAY_CLIENT_SECRET = credentials('xray-client-secret')
+        JIRA_EMAIL         = credentials('jira-email')
+        JIRA_API_TOKEN     = credentials('jira-api-token')
+        JIRA_URL           = credentials('jira-url')
+    }
+
+    options {
+        timestamps()
+    }
+
+    stages {
+
+        stage('Build & Test') {
+            steps {
+                echo 'Ejecutando pruebas con Gradle...'
+                sh './gradlew clean test'
+            }
+        }
+
+        stage('Subir resultados a Xray') {
+            steps {
+                echo 'Subiendo resultados a Xray...'
+                sh 'chmod +x ./upload-xray.sh && ./upload-xray.sh'
+            }
+        }
+
+        stage('Generar PDF Allure Report') {
+            steps {
+                echo 'Generando PDF con Puppeteer...'
+                // Si Node.js no está instalado en Jenkins, usar herramienta global o docker
+                sh '''
+                    if ! command -v node >/dev/null 2>&1; then
+                        echo "Node.js no está instalado. Abortando."
+                        exit 1
+                    fi
+                    chmod +x ./generate-and-upload-pdf.sh
+                    ./generate-and-upload-pdf.sh
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline ejecutado correctamente.'
+        }
+        failure {
+            echo 'La ejecución del pipeline falló.'
+        }
+    }
+}

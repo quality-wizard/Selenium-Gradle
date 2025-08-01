@@ -58,7 +58,7 @@ RESPONSE=$(curl -s \
     "$IMPORT_URL")
 
 echo "Respuesta de Xray:"
-echo "$RESPONSE"
+echo "PDF cargado correctamente en Xray."
 
 # Extraer testExecutionKey y guardarlo
 TEST_EXECUTION_KEY=$(echo "$RESPONSE" | sed -n 's/.*"key":"\([^"]*\)".*/\1/p')
