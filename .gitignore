@@ -56,3 +56,4 @@ reports/
 # Npm
 # ---------------------------------
 node_modules/
+generate-pdf.js
