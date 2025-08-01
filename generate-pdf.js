@@ -7,10 +7,10 @@ const puppeteer = require('puppeteer');
     });
     const page = await browser.newPage();
     await page.goto('http://localhost:8888', { waitUntil: 'networkidle0' });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
     await page.pdf({
         path: 'build/allure-report/allure-report.pdf',
-        format: 'Legal',
+        format: 'legal',
         landscape: true,
         printBackground: true,
         margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' }
