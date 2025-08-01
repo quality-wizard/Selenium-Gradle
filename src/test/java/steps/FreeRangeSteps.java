@@ -80,7 +80,7 @@ public class FreeRangeSteps {
     @Then("^(?:I|The user|The client) can validate the options available in the checkout page$")
     public void validateCheckoutOptions() {
         List<String> lista = registroPage.getRadioButtonTexts();
-        List<String> listaEsperada = List.of("$16.99/m", "$176/as");
+        List<String> listaEsperada = List.of("$16.99/m", "$176/a");
 
         try {
             Assertions.assertEquals(lista, listaEsperada);
