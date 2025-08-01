@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'Node'
+        allure 'Allure'        
+    }
+
     environment {
         // Variables de entorno cargadas desde .env o definidas aquí directamente
         XRAY_CLIENT_ID     = credentials('xray-client-id')
@@ -20,6 +25,12 @@ pipeline {
             steps {
                 echo 'Ejecutando pruebas con Gradle...'
                 sh './gradlew clean test'
+            }
+            post {
+                always {
+                    // Publicar reporte Allure usando el plugin Jenkins
+                    allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
+                }
             }
         }
 
