@@ -43,14 +43,9 @@ pipeline {
             post {
                 always {
                     allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
+                    echo 'Subiendo resultados a Xray...'
+                    sh 'chmod +x ./upload-xray.sh && ./upload-xray.sh'
                 }
-            }
-        }
-
-        stage('Subir resultados a Xray') {
-            steps {
-                echo 'Subiendo resultados a Xray...'
-                sh 'chmod +x ./upload-xray.sh && ./upload-xray.sh'
             }
         }
 
