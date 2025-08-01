@@ -10,8 +10,8 @@ const puppeteer = require('puppeteer');
     await new Promise(resolve => setTimeout(resolve, 4000));
     await page.pdf({
         path: 'build/allure-report/allure-report.pdf',
-        format: 'legal',
-        landscape: true,
+        width: '14in',
+        height: '8.5in',
         printBackground: true,
         margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' }
     });
